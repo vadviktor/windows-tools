@@ -13,7 +13,7 @@ import (
 
 const (
 	sourceBaseDir          = `E:\World of Warcraft`
-	destinationFilenameTpl = `D:\Dropbox\wow-%s.zip`
+	destinationFilenameTpl = `D:\gdrive\backups\wow-%s.zip`
 )
 
 func main() {

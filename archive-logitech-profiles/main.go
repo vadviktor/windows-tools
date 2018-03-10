@@ -13,7 +13,7 @@ import (
 
 const (
 	sourceBaseDir          = `C:\Users\ikon\AppData\Local\Logitech\Logitech Gaming Software`
-	destinationFilenameTpl = `D:\Dropbox\logitech-%s.zip`
+	destinationFilenameTpl = `D:\gdrive\backups\logitech-%s.zip`
 )
 
 func main() {
