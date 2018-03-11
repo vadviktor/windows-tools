@@ -142,7 +142,7 @@ func putOnS3(filePath string) error {
 		Body: file,
 		// https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html#canned-acl
 		ACL:             aws.String("private"),
-		ContentType:     aws.String("application/atom+xml"),
+		ContentType:     aws.String("application/zip"),
 		ContentEncoding: aws.String("utf-8"),
 	})
 
