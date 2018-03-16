@@ -1,0 +1,8 @@
+sourceDirs = [""]
+tempFilepathTpl = "/home/ikon/Desktop/file-%s.zip"
+s3Key = ""
+s3Secret = ""
+s3Endpoint = ""
+s3Region = ""
+s3Bucket = ""
+s3Dir = "/"

@@ -19,24 +19,23 @@ import (
 	"github.com/spf13/viper"
 )
 
-var (
-	fileBaseName string
-)
-
 func init() {
-	fileBaseName = strings.TrimRight(filepath.Base(os.Args[0]),
-		filepath.Ext(os.Args[0]))
+	if len(os.Args) == 1 {
+		log.Fatalln("First argument has to be a config file.")
+	}
+
+	if _, err := os.Stat(os.Args[1]); os.IsNotExist(err) {
+		log.Fatalln("First argument has to be a readable config file.")
+	}
 
 	flag.Usage = func() {
-		u := fmt.Sprintf(`Archives the Logitech profile XMLs and then uploades the archive to DigitalOcean Spaces.
-
-Create a config file named %s.json by filling in what is defined in its sample file.
-`, fileBaseName)
+		u := fmt.Sprint("Archives the directories defined in the config file and then uploades the archive to AWS S3 compatible storage.",)
 		fmt.Fprint(os.Stderr, u)
 	}
 	flag.Parse()
 
-	viper.SetConfigName(fileBaseName)
+	viper.SetConfigName(strings.TrimRight(filepath.Base(os.Args[1]),
+		filepath.Ext(os.Args[1])))
 	viper.AddConfigPath(".")
 	err := viper.ReadInConfig()
 	if err != nil {
@@ -49,14 +48,11 @@ func main() {
 	formattedTime := fmt.Sprintf("%04d%02d%02d_%02d%02d%02d",
 		t.Year(), t.Month(), t.Day(),
 		t.Hour(), t.Minute(), t.Second())
-	target := fmt.Sprintf(viper.GetString("tempFilenameTpl"), formattedTime)
+	target := fmt.Sprintf(viper.GetString("tempFilepathTpl"), formattedTime)
 	// make sure the temporary local archive gets deleted
 	defer os.Remove(target)
 
-	sources := []string{
-		filepath.Join(viper.GetString("sourceBaseDir"), "profiles"),
-	}
-
+	sources := viper.GetStringSlice("sourceDirs")
 	zipFile, err := os.Create(target)
 	if err != nil {
 		log.Fatalf("Failed to create %s: %s\n", target, err.Error())
@@ -95,7 +91,7 @@ func main() {
 		})
 
 		if err != nil {
-			log.Fatal(err)
+			log.Fatalf("Error during archiving: %s\n", err.Error())
 		}
 	}
 
@@ -104,7 +100,7 @@ func main() {
 	archive.Close()
 	zipFile.Close()
 
-	fmt.Print("Uploading to DO-Spaces...")
+	fmt.Print("Uploading...")
 	err = putOnS3(target)
 	if err != nil {
 		log.Printf("%s\n", err.Error())
@@ -115,11 +111,11 @@ func main() {
 
 func putOnS3(filePath string) error {
 	sess, err := session.NewSession(&aws.Config{
-		Endpoint: aws.String(viper.GetString("doSpacesEndpoint")),
-		Region:   aws.String(viper.GetString("doSpacesRegion")),
+		Endpoint: aws.String(viper.GetString("s3Endpoint")),
+		Region:   aws.String(viper.GetString("s3Region")),
 		Credentials: credentials.NewStaticCredentials(
-			viper.GetString("doSpacesKey"),
-			viper.GetString("doSpacesSecret"),
+			viper.GetString("s3Key"),
+			viper.GetString("s3Secret"),
 			""),
 	})
 	if err != nil {
@@ -136,9 +132,8 @@ func putOnS3(filePath string) error {
 	defer file.Close()
 
 	_, err = uploader.Upload(&s3manager.UploadInput{
-		Bucket: aws.String(viper.GetString("doSpacesBucket")),
-		Key: aws.String(fmt.Sprintf("/backups/%s",
-			filepath.Base(filePath))),
+		Bucket: aws.String(viper.GetString("s3Bucket")),
+		Key: aws.String(path.Join(viper.GetString("s3Dir"), path.Base(filePath))),
 		Body: file,
 		// https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html#canned-acl
 		ACL:             aws.String("private"),
