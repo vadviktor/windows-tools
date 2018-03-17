@@ -48,7 +48,9 @@ func main() {
 	formattedTime := fmt.Sprintf("%04d%02d%02d_%02d%02d%02d",
 		t.Year(), t.Month(), t.Day(),
 		t.Hour(), t.Minute(), t.Second())
-	target := fmt.Sprintf(viper.GetString("tempFilepathTpl"), formattedTime)
+
+	target := path.Join(viper.GetString("tempFilepath"),
+		fmt.Sprintf(viper.GetString("archiveFilenameTpl"), formattedTime))
 	// make sure the temporary local archive gets deleted
 	defer os.Remove(target)
 

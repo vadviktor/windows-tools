@@ -1,5 +1,6 @@
 sourceDirs = [""]
-tempFilepathTpl = "somedir/file-%s.zip"
+tempFilepath = "somedir"
+archiveFilenameTpl = "file-%s.zip"
 s3Key = ""
 s3Secret = ""
 s3Endpoint = ""
