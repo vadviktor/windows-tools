@@ -16,15 +16,21 @@ import (
 	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/s3/s3manager"
+	"github.com/getsentry/raven-go"
 	"github.com/spf13/viper"
 )
 
 func init() {
+	raven.SetDSN("https://6c9ec3fd3a644537aded37c9f9170868:e7e7508bf3da4ed29ee112a5f97332b4@sentry.io/1147607")
+
 	if len(os.Args) == 1 {
-		log.Fatalln("First argument has to be a config file.")
+		msg := "First argument has to be a config file."
+		raven.CaptureErrorAndWait(fmt.Errorf(msg), nil)
+		log.Fatalln(msg)
 	}
 
 	if _, err := os.Stat(os.Args[1]); os.IsNotExist(err) {
+		raven.CaptureErrorAndWait(err, nil)
 		log.Fatalln("First argument has to be a readable config file.")
 	}
 
@@ -39,6 +45,7 @@ func init() {
 	viper.AddConfigPath(".")
 	err := viper.ReadInConfig()
 	if err != nil {
+		raven.CaptureErrorAndWait(err, nil)
 		log.Fatalf("%s\n", err.Error())
 	}
 }
@@ -57,6 +64,7 @@ func main() {
 	sources := viper.GetStringSlice("sourceDirs")
 	zipFile, err := os.Create(target)
 	if err != nil {
+		raven.CaptureErrorAndWait(err, nil)
 		log.Fatalf("Failed to create %s: %s\n", target, err.Error())
 	}
 	archive := zip.NewWriter(zipFile)
@@ -93,6 +101,7 @@ func main() {
 		})
 
 		if err != nil {
+			raven.CaptureErrorAndWait(err, nil)
 			log.Fatalf("Error during archiving: %s\n", err.Error())
 		}
 	}
@@ -105,6 +114,7 @@ func main() {
 	fmt.Print("Uploading...")
 	err = putOnS3(target)
 	if err != nil {
+		raven.CaptureErrorAndWait(err, nil)
 		log.Printf("%s\n", err.Error())
 	}
 	fmt.Println("done.")

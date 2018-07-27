@@ -3,15 +3,72 @@
 
 [[projects]]
   name = "github.com/aws/aws-sdk-go"
-  packages = ["aws","aws/awserr","aws/awsutil","aws/client","aws/client/metadata","aws/corehandlers","aws/credentials","aws/credentials/ec2rolecreds","aws/credentials/endpointcreds","aws/credentials/stscreds","aws/defaults","aws/ec2metadata","aws/endpoints","aws/request","aws/session","aws/signer/v4","internal/sdkio","internal/sdkrand","internal/shareddefaults","private/protocol","private/protocol/query","private/protocol/query/queryutil","private/protocol/rest","private/protocol/restxml","private/protocol/xml/xmlutil","service/s3","service/s3/s3iface","service/s3/s3manager","service/sts"]
+  packages = [
+    "aws",
+    "aws/awserr",
+    "aws/awsutil",
+    "aws/client",
+    "aws/client/metadata",
+    "aws/corehandlers",
+    "aws/credentials",
+    "aws/credentials/ec2rolecreds",
+    "aws/credentials/endpointcreds",
+    "aws/credentials/stscreds",
+    "aws/defaults",
+    "aws/ec2metadata",
+    "aws/endpoints",
+    "aws/request",
+    "aws/session",
+    "aws/signer/v4",
+    "internal/sdkio",
+    "internal/sdkrand",
+    "internal/shareddefaults",
+    "private/protocol",
+    "private/protocol/query",
+    "private/protocol/query/queryutil",
+    "private/protocol/rest",
+    "private/protocol/restxml",
+    "private/protocol/xml/xmlutil",
+    "service/s3",
+    "service/s3/s3iface",
+    "service/s3/s3manager",
+    "service/sts"
+  ]
   revision = "62465d4996f172ae426fdcec7a6a053062cf8995"
   version = "v1.13.15"
+
+[[projects]]
+  name = "github.com/bugsnag/bugsnag-go"
+  packages = [
+    ".",
+    "errors"
+  ]
+  revision = "f860f733c3d1c69181d9240eed266f94422fc99e"
+  version = "v1.3.1"
+
+[[projects]]
+  name = "github.com/bugsnag/panicwrap"
+  packages = ["."]
+  revision = "4009b2b7c78d820cc4a2e42f035bb557ce4ae45b"
+  version = "v1.2.0"
+
+[[projects]]
+  name = "github.com/certifi/gocertifi"
+  packages = ["."]
+  revision = "deb3ae2ef2610fde3330947281941c562861188b"
+  version = "2018.01.18"
 
 [[projects]]
   name = "github.com/fsnotify/fsnotify"
   packages = ["."]
   revision = "c2828203cd70a50dcccfb2761f8b1f8ceef9a8e9"
   version = "v1.4.7"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/getsentry/raven-go"
+  packages = ["."]
+  revision = "ed7bcb39ff10f39ab08e317ce16df282845852fa"
 
 [[projects]]
   name = "github.com/go-ini/ini"
@@ -22,13 +79,29 @@
 [[projects]]
   branch = "master"
   name = "github.com/hashicorp/hcl"
-  packages = [".","hcl/ast","hcl/parser","hcl/scanner","hcl/strconv","hcl/token","json/parser","json/scanner","json/token"]
+  packages = [
+    ".",
+    "hcl/ast",
+    "hcl/parser",
+    "hcl/scanner",
+    "hcl/strconv",
+    "hcl/token",
+    "json/parser",
+    "json/scanner",
+    "json/token"
+  ]
   revision = "23c074d0eceb2b8a5bfdbb271ab780cde70f05a8"
 
 [[projects]]
   name = "github.com/jmespath/go-jmespath"
   packages = ["."]
   revision = "0b12d6b5"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/kardianos/osext"
+  packages = ["."]
+  revision = "ae77be60afb1dcacde03767a8c37337fad28ac14"
 
 [[projects]]
   name = "github.com/magiconair/properties"
@@ -49,8 +122,17 @@
   version = "v1.1.0"
 
 [[projects]]
+  name = "github.com/pkg/errors"
+  packages = ["."]
+  revision = "645ef00459ed84a119197bfb8d8205042c6df63d"
+  version = "v0.8.0"
+
+[[projects]]
   name = "github.com/spf13/afero"
-  packages = [".","mem"]
+  packages = [
+    ".",
+    "mem"
+  ]
   revision = "bb8f1927f2a9d3ab41c9340aa034f6b803f4359c"
   version = "v1.0.2"
 
@@ -86,7 +168,14 @@
 
 [[projects]]
   name = "golang.org/x/text"
-  packages = ["internal/gen","internal/triegen","internal/ucd","transform","unicode/cldr","unicode/norm"]
+  packages = [
+    "internal/gen",
+    "internal/triegen",
+    "internal/ucd",
+    "transform",
+    "unicode/cldr",
+    "unicode/norm"
+  ]
   revision = "f21a4dfb5e38f5895301dc265a8def02365cc3d0"
   version = "v0.3.0"
 
@@ -99,6 +188,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "9676399034b2a1bfee32061c2cc865ec69bc58e12d79ce2105b14392b2f4be7e"
+  inputs-digest = "ab56e7913121907f4669bdb19f6cb9c897222f5c570326e69e49bb47c9974d86"
   solver-name = "gps-cdcl"
   solver-version = 1
